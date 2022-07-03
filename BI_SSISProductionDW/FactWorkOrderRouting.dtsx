@@ -1,0 +1,2748 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/17/2022 9:49:57 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="DESKTOP-1J38BP4"
+  DTS:CreatorName="DESKTOP-1J38BP4\Cong Thanh"
+  DTS:DTSID="{9344C243-80B3-4F8B-9743-2D0E9BE84166}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.180"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Package1"
+  DTS:PackageType="5"
+  DTS:VersionBuild="13"
+  DTS:VersionGUID="{B0FEA958-F7C8-457E-B350-F45825CD4132}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[DESKTOP-1J38BP4\MSSQLSERVER1.AdventureWorks2014]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{9A6D3BF4-3D79-48D6-BBE1-EBEB4A6C9328}"
+      DTS:ObjectName="DESKTOP-1J38BP4\MSSQLSERVER1.AdventureWorks2014">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=DESKTOP-1J38BP4\MSSQLSERVER1;Initial Catalog=AdventureWorks2014;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[DESKTOP-1J38BP4\MSSQLSERVER1.ProductionDW]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{714F2B0B-0640-40B0-B9B7-F9CD758B8FD7}"
+      DTS:ObjectName="DESKTOP-1J38BP4\MSSQLSERVER1.ProductionDW">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=DESKTOP-1J38BP4\MSSQLSERVER1;Initial Catalog=ProductionDW;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\FactWorkOrderRouting"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{0FB3F28B-7F6F-4692-BB2A-50DDA22ABA60}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="FactWorkOrderRouting"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\FactWorkOrderRouting\Conditional Split"
+              componentClassID="Microsoft.ConditionalSplit"
+              contactInfo="Conditional Split;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Routes data rows to different outputs depending on the content of the data. Use conditions (SSIS expressions) to specify which rows are routed. For example, separate records that need to be cleaned from those that are ready to be loaded or route only a subset of records."
+              name="Conditional Split"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\FactWorkOrderRouting\Conditional Split.Inputs[Conditional Split Input]"
+                  description="Input to the Conditional Split Transformation"
+                  name="Conditional Split Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\Conditional Split.Inputs[Conditional Split Input].Columns[ActualCost]"
+                      cachedDataType="cy"
+                      cachedName="ActualCost"
+                      lineageId="Package\FactWorkOrderRouting\Merge Join.Outputs[Merge Join Output].Columns[ActualCost]" />
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\Conditional Split.Inputs[Conditional Split Input].Columns[ActualCostDW]"
+                      cachedDataType="cy"
+                      cachedName="ActualCostDW"
+                      lineageId="Package\FactWorkOrderRouting\Merge Join.Outputs[Merge Join Output].Columns[ActualCostDW]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\FactWorkOrderRouting\Conditional Split.Outputs[Insert]"
+                  description="Output 1 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Insert"
+                  synchronousInputId="Package\FactWorkOrderRouting\Conditional Split.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">[ISNULL](#{Package\FactWorkOrderRouting\Merge Join.Outputs[Merge Join Output].Columns[ActualCostDW]})</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">ISNULL(ActualCostDW)</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">0</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\FactWorkOrderRouting\Conditional Split.Outputs[Update]"
+                  description="Output 2 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Update"
+                  synchronousInputId="Package\FactWorkOrderRouting\Conditional Split.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">#{Package\FactWorkOrderRouting\Merge Join.Outputs[Merge Join Output].Columns[ActualCost]} != #{Package\FactWorkOrderRouting\Merge Join.Outputs[Merge Join Output].Columns[ActualCostDW]}</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">ActualCost != ActualCostDW</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">1</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\FactWorkOrderRouting\Conditional Split.Outputs[Conditional Split Default Output]"
+                  description="Default Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  name="Conditional Split Default Output"
+                  synchronousInputId="Package\FactWorkOrderRouting\Conditional Split.Inputs[Conditional Split Input]">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      name="IsDefaultOut">true</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\FactWorkOrderRouting\Conditional Split.Outputs[Conditional Split Error Output]"
+                  description="Error Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Conditional Split Error Output"
+                  synchronousInputId="Package\FactWorkOrderRouting\Conditional Split.Inputs[Conditional Split Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\FactWorkOrderRouting\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\FactWorkOrderRouting\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\FactWorkOrderRouting\FactWorkOrderRouting"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="FactWorkOrderRouting"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[FactWorkOrderRouting]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[DESKTOP-1J38BP4\MSSQLSERVER1.ProductionDW]"
+                  connectionManagerRefId="Package.ConnectionManagers[DESKTOP-1J38BP4\MSSQLSERVER1.ProductionDW]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[FactWorkOrderRoutingKey]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].ExternalColumns[FactWorkOrderRoutingKey]"
+                      lineageId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[FactWorkOrderRoutingKey]"
+                      name="FactWorkOrderRoutingKey"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[ProductKeyDW]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].ExternalColumns[ProductKey]"
+                      lineageId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[ProductKeyDW]"
+                      name="ProductKeyDW"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[WorkOrderID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].ExternalColumns[WorkOrderID]"
+                      lineageId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[WorkOrderID]"
+                      name="WorkOrderID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[OperationSequence]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].ExternalColumns[OperationSequence]"
+                      lineageId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[OperationSequence]"
+                      name="OperationSequence"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[ScheduledStartDate]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].ExternalColumns[ScheduledStartDate]"
+                      lineageId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[ScheduledStartDate]"
+                      name="ScheduledStartDate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[ScheduledEndDate]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].ExternalColumns[ScheduledEndDate]"
+                      lineageId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[ScheduledEndDate]"
+                      name="ScheduledEndDate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[ActualStartDate]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].ExternalColumns[ActualStartDate]"
+                      lineageId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[ActualStartDate]"
+                      name="ActualStartDate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[ActualEndDate]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].ExternalColumns[ActualEndDate]"
+                      lineageId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[ActualEndDate]"
+                      name="ActualEndDate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[PlannedCost]"
+                      dataType="cy"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].ExternalColumns[PlannedCost]"
+                      lineageId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[PlannedCost]"
+                      name="PlannedCost"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[ActualCostDW]"
+                      dataType="cy"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].ExternalColumns[ActualCost]"
+                      lineageId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[ActualCostDW]"
+                      name="ActualCostDW"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[ScrappedQuantity]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].ExternalColumns[ScrappedQuantity]"
+                      lineageId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[ScrappedQuantity]"
+                      name="ScrappedQuantity"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[ProductID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].ExternalColumns[ProductID]"
+                      lineageId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[ProductID]"
+                      name="ProductID"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].ExternalColumns[FactWorkOrderRoutingKey]"
+                      dataType="i4"
+                      name="FactWorkOrderRoutingKey" />
+                    <externalMetadataColumn
+                      refId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].ExternalColumns[ProductKey]"
+                      dataType="i4"
+                      name="ProductKey" />
+                    <externalMetadataColumn
+                      refId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].ExternalColumns[WorkOrderID]"
+                      dataType="i4"
+                      name="WorkOrderID" />
+                    <externalMetadataColumn
+                      refId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].ExternalColumns[OperationSequence]"
+                      dataType="i4"
+                      name="OperationSequence" />
+                    <externalMetadataColumn
+                      refId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].ExternalColumns[ScheduledStartDate]"
+                      dataType="i4"
+                      name="ScheduledStartDate" />
+                    <externalMetadataColumn
+                      refId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].ExternalColumns[ScheduledEndDate]"
+                      dataType="i4"
+                      name="ScheduledEndDate" />
+                    <externalMetadataColumn
+                      refId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].ExternalColumns[ActualStartDate]"
+                      dataType="i4"
+                      name="ActualStartDate" />
+                    <externalMetadataColumn
+                      refId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].ExternalColumns[ActualEndDate]"
+                      dataType="i4"
+                      name="ActualEndDate" />
+                    <externalMetadataColumn
+                      refId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].ExternalColumns[PlannedCost]"
+                      dataType="cy"
+                      name="PlannedCost" />
+                    <externalMetadataColumn
+                      refId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].ExternalColumns[ActualCost]"
+                      dataType="cy"
+                      name="ActualCost" />
+                    <externalMetadataColumn
+                      refId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].ExternalColumns[ScrappedQuantity]"
+                      dataType="i4"
+                      name="ScrappedQuantity" />
+                    <externalMetadataColumn
+                      refId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].ExternalColumns[ProductID]"
+                      dataType="i4"
+                      name="ProductID" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Error Output].Columns[FactWorkOrderRoutingKey]"
+                      dataType="i4"
+                      lineageId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Error Output].Columns[FactWorkOrderRoutingKey]"
+                      name="FactWorkOrderRoutingKey" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Error Output].Columns[ProductKey]"
+                      dataType="i4"
+                      lineageId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Error Output].Columns[ProductKey]"
+                      name="ProductKey" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Error Output].Columns[WorkOrderID]"
+                      dataType="i4"
+                      lineageId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Error Output].Columns[WorkOrderID]"
+                      name="WorkOrderID" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Error Output].Columns[OperationSequence]"
+                      dataType="i4"
+                      lineageId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Error Output].Columns[OperationSequence]"
+                      name="OperationSequence" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Error Output].Columns[ScheduledStartDate]"
+                      dataType="i4"
+                      lineageId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Error Output].Columns[ScheduledStartDate]"
+                      name="ScheduledStartDate" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Error Output].Columns[ScheduledEndDate]"
+                      dataType="i4"
+                      lineageId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Error Output].Columns[ScheduledEndDate]"
+                      name="ScheduledEndDate" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Error Output].Columns[ActualStartDate]"
+                      dataType="i4"
+                      lineageId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Error Output].Columns[ActualStartDate]"
+                      name="ActualStartDate" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Error Output].Columns[ActualEndDate]"
+                      dataType="i4"
+                      lineageId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Error Output].Columns[ActualEndDate]"
+                      name="ActualEndDate" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Error Output].Columns[PlannedCost]"
+                      dataType="cy"
+                      lineageId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Error Output].Columns[PlannedCost]"
+                      name="PlannedCost" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Error Output].Columns[ActualCost]"
+                      dataType="cy"
+                      lineageId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Error Output].Columns[ActualCost]"
+                      name="ActualCost" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Error Output].Columns[ScrappedQuantity]"
+                      dataType="i4"
+                      lineageId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Error Output].Columns[ScrappedQuantity]"
+                      name="ScrappedQuantity" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Error Output].Columns[ProductID]"
+                      dataType="i4"
+                      lineageId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Error Output].Columns[ProductID]"
+                      name="ProductID" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\FactWorkOrderRouting\InsertFactWorkOrderRouting"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="InsertFactWorkOrderRouting"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[FactWorkOrderRouting]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\FactWorkOrderRouting\InsertFactWorkOrderRouting.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[DESKTOP-1J38BP4\MSSQLSERVER1.ProductionDW]"
+                  connectionManagerRefId="Package.ConnectionManagers[DESKTOP-1J38BP4\MSSQLSERVER1.ProductionDW]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\FactWorkOrderRouting\InsertFactWorkOrderRouting.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\InsertFactWorkOrderRouting.Inputs[OLE DB Destination Input].Columns[OperationSequence]"
+                      cachedDataType="i2"
+                      cachedName="OperationSequence"
+                      externalMetadataColumnId="Package\FactWorkOrderRouting\InsertFactWorkOrderRouting.Inputs[OLE DB Destination Input].ExternalColumns[OperationSequence]"
+                      lineageId="Package\FactWorkOrderRouting\Merge Join.Outputs[Merge Join Output].Columns[OperationSequence]" />
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\InsertFactWorkOrderRouting.Inputs[OLE DB Destination Input].Columns[ScheduledStartDate]"
+                      cachedDataType="wstr"
+                      cachedLength="4000"
+                      cachedName="ScheduledStartDate"
+                      externalMetadataColumnId="Package\FactWorkOrderRouting\InsertFactWorkOrderRouting.Inputs[OLE DB Destination Input].ExternalColumns[ScheduledStartDate]"
+                      lineageId="Package\FactWorkOrderRouting\Merge Join.Outputs[Merge Join Output].Columns[ScheduledStartDate]" />
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\InsertFactWorkOrderRouting.Inputs[OLE DB Destination Input].Columns[ScheduledEndDate]"
+                      cachedDataType="wstr"
+                      cachedLength="4000"
+                      cachedName="ScheduledEndDate"
+                      externalMetadataColumnId="Package\FactWorkOrderRouting\InsertFactWorkOrderRouting.Inputs[OLE DB Destination Input].ExternalColumns[ScheduledEndDate]"
+                      lineageId="Package\FactWorkOrderRouting\Merge Join.Outputs[Merge Join Output].Columns[ScheduledEndDate]" />
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\InsertFactWorkOrderRouting.Inputs[OLE DB Destination Input].Columns[ActualStartDate]"
+                      cachedDataType="wstr"
+                      cachedLength="4000"
+                      cachedName="ActualStartDate"
+                      externalMetadataColumnId="Package\FactWorkOrderRouting\InsertFactWorkOrderRouting.Inputs[OLE DB Destination Input].ExternalColumns[ActualStartDate]"
+                      lineageId="Package\FactWorkOrderRouting\Merge Join.Outputs[Merge Join Output].Columns[ActualStartDate]" />
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\InsertFactWorkOrderRouting.Inputs[OLE DB Destination Input].Columns[ActualEndDate]"
+                      cachedDataType="wstr"
+                      cachedLength="4000"
+                      cachedName="ActualEndDate"
+                      externalMetadataColumnId="Package\FactWorkOrderRouting\InsertFactWorkOrderRouting.Inputs[OLE DB Destination Input].ExternalColumns[ActualEndDate]"
+                      lineageId="Package\FactWorkOrderRouting\Merge Join.Outputs[Merge Join Output].Columns[ActualEndDate]" />
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\InsertFactWorkOrderRouting.Inputs[OLE DB Destination Input].Columns[PlannedCost]"
+                      cachedDataType="cy"
+                      cachedName="PlannedCost"
+                      externalMetadataColumnId="Package\FactWorkOrderRouting\InsertFactWorkOrderRouting.Inputs[OLE DB Destination Input].ExternalColumns[PlannedCost]"
+                      lineageId="Package\FactWorkOrderRouting\Merge Join.Outputs[Merge Join Output].Columns[PlannedCost]" />
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\InsertFactWorkOrderRouting.Inputs[OLE DB Destination Input].Columns[ActualCost]"
+                      cachedDataType="cy"
+                      cachedName="ActualCost"
+                      externalMetadataColumnId="Package\FactWorkOrderRouting\InsertFactWorkOrderRouting.Inputs[OLE DB Destination Input].ExternalColumns[ActualCost]"
+                      lineageId="Package\FactWorkOrderRouting\Merge Join.Outputs[Merge Join Output].Columns[ActualCost]" />
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\InsertFactWorkOrderRouting.Inputs[OLE DB Destination Input].Columns[ProductKey]"
+                      cachedDataType="i4"
+                      cachedName="ProductKey"
+                      cachedSortKeyPosition="1"
+                      externalMetadataColumnId="Package\FactWorkOrderRouting\InsertFactWorkOrderRouting.Inputs[OLE DB Destination Input].ExternalColumns[ProductKey]"
+                      lineageId="Package\FactWorkOrderRouting\Merge Join.Outputs[Merge Join Output].Columns[ProductKey]" />
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\InsertFactWorkOrderRouting.Inputs[OLE DB Destination Input].Columns[WorkOrderID]"
+                      cachedDataType="i4"
+                      cachedName="WorkOrderID"
+                      externalMetadataColumnId="Package\FactWorkOrderRouting\InsertFactWorkOrderRouting.Inputs[OLE DB Destination Input].ExternalColumns[WorkOrderID]"
+                      lineageId="Package\FactWorkOrderRouting\Merge Join.Outputs[Merge Join Output].Columns[WorkOrderID]" />
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\InsertFactWorkOrderRouting.Inputs[OLE DB Destination Input].Columns[ProductID]"
+                      cachedDataType="i4"
+                      cachedName="ProductID"
+                      externalMetadataColumnId="Package\FactWorkOrderRouting\InsertFactWorkOrderRouting.Inputs[OLE DB Destination Input].ExternalColumns[ProductID]"
+                      lineageId="Package\FactWorkOrderRouting\Merge Join.Outputs[Merge Join Output].Columns[ProductID]" />
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\InsertFactWorkOrderRouting.Inputs[OLE DB Destination Input].Columns[ScrappedQty]"
+                      cachedDataType="i2"
+                      cachedName="ScrappedQty"
+                      externalMetadataColumnId="Package\FactWorkOrderRouting\InsertFactWorkOrderRouting.Inputs[OLE DB Destination Input].ExternalColumns[ScrappedQuantity]"
+                      lineageId="Package\FactWorkOrderRouting\Merge Join.Outputs[Merge Join Output].Columns[ScrappedQty]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\FactWorkOrderRouting\InsertFactWorkOrderRouting.Inputs[OLE DB Destination Input].ExternalColumns[FactWorkOrderRoutingKey]"
+                      dataType="i4"
+                      name="FactWorkOrderRoutingKey" />
+                    <externalMetadataColumn
+                      refId="Package\FactWorkOrderRouting\InsertFactWorkOrderRouting.Inputs[OLE DB Destination Input].ExternalColumns[ProductKey]"
+                      dataType="i4"
+                      name="ProductKey" />
+                    <externalMetadataColumn
+                      refId="Package\FactWorkOrderRouting\InsertFactWorkOrderRouting.Inputs[OLE DB Destination Input].ExternalColumns[WorkOrderID]"
+                      dataType="i4"
+                      name="WorkOrderID" />
+                    <externalMetadataColumn
+                      refId="Package\FactWorkOrderRouting\InsertFactWorkOrderRouting.Inputs[OLE DB Destination Input].ExternalColumns[OperationSequence]"
+                      dataType="i4"
+                      name="OperationSequence" />
+                    <externalMetadataColumn
+                      refId="Package\FactWorkOrderRouting\InsertFactWorkOrderRouting.Inputs[OLE DB Destination Input].ExternalColumns[ScheduledStartDate]"
+                      dataType="i4"
+                      name="ScheduledStartDate" />
+                    <externalMetadataColumn
+                      refId="Package\FactWorkOrderRouting\InsertFactWorkOrderRouting.Inputs[OLE DB Destination Input].ExternalColumns[ScheduledEndDate]"
+                      dataType="i4"
+                      name="ScheduledEndDate" />
+                    <externalMetadataColumn
+                      refId="Package\FactWorkOrderRouting\InsertFactWorkOrderRouting.Inputs[OLE DB Destination Input].ExternalColumns[ActualStartDate]"
+                      dataType="i4"
+                      name="ActualStartDate" />
+                    <externalMetadataColumn
+                      refId="Package\FactWorkOrderRouting\InsertFactWorkOrderRouting.Inputs[OLE DB Destination Input].ExternalColumns[ActualEndDate]"
+                      dataType="i4"
+                      name="ActualEndDate" />
+                    <externalMetadataColumn
+                      refId="Package\FactWorkOrderRouting\InsertFactWorkOrderRouting.Inputs[OLE DB Destination Input].ExternalColumns[PlannedCost]"
+                      dataType="cy"
+                      name="PlannedCost" />
+                    <externalMetadataColumn
+                      refId="Package\FactWorkOrderRouting\InsertFactWorkOrderRouting.Inputs[OLE DB Destination Input].ExternalColumns[ActualCost]"
+                      dataType="cy"
+                      name="ActualCost" />
+                    <externalMetadataColumn
+                      refId="Package\FactWorkOrderRouting\InsertFactWorkOrderRouting.Inputs[OLE DB Destination Input].ExternalColumns[ScrappedQuantity]"
+                      dataType="i4"
+                      name="ScrappedQuantity" />
+                    <externalMetadataColumn
+                      refId="Package\FactWorkOrderRouting\InsertFactWorkOrderRouting.Inputs[OLE DB Destination Input].ExternalColumns[ProductID]"
+                      dataType="i4"
+                      name="ProductID" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\FactWorkOrderRouting\InsertFactWorkOrderRouting.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\FactWorkOrderRouting\InsertFactWorkOrderRouting.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\InsertFactWorkOrderRouting.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\FactWorkOrderRouting\InsertFactWorkOrderRouting.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\InsertFactWorkOrderRouting.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\FactWorkOrderRouting\InsertFactWorkOrderRouting.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\FactWorkOrderRouting\Merge Join"
+              componentClassID="Microsoft.MergeJoin"
+              contactInfo="Merge Join;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Combine two sorted data flows into one using the FULL, LEFT, or INNER join. We recommend this transformation when data flows can be sorted at their sources."
+              name="Merge Join"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of join to perform."
+                  name="JoinType"
+                  typeConverter="JoinType">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the number of columns in the ordering key."
+                  name="NumKeyColumns">1</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the null values are treated as equal values."
+                  name="TreatNullsAsEqual">true</property>
+                <property
+                  dataType="System.Int32"
+                  description="Indicates the requested maximum buffers per input before blocking."
+                  name="MaxBuffersPerInput">5</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\FactWorkOrderRouting\Merge Join.Inputs[Merge Join Left Input]"
+                  hasSideEffects="true"
+                  name="Merge Join Left Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\Merge Join.Inputs[Merge Join Left Input].Columns[ProductKey]"
+                      cachedDataType="i4"
+                      cachedName="ProductKey"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\FactWorkOrderRouting\Sort.Outputs[Sort Output].Columns[ProductKey]" />
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\Merge Join.Inputs[Merge Join Left Input].Columns[WorkOrderID]"
+                      cachedDataType="i4"
+                      cachedName="WorkOrderID"
+                      lineageId="Package\FactWorkOrderRouting\Sort.Outputs[Sort Output].Columns[WorkOrderID]" />
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\Merge Join.Inputs[Merge Join Left Input].Columns[ProductID]"
+                      cachedDataType="i4"
+                      cachedName="ProductID"
+                      lineageId="Package\FactWorkOrderRouting\Sort.Outputs[Sort Output].Columns[ProductID]" />
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\Merge Join.Inputs[Merge Join Left Input].Columns[OperationSequence]"
+                      cachedDataType="i2"
+                      cachedName="OperationSequence"
+                      lineageId="Package\FactWorkOrderRouting\Sort.Outputs[Sort Output].Columns[OperationSequence]" />
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\Merge Join.Inputs[Merge Join Left Input].Columns[ScheduledStartDate]"
+                      cachedDataType="wstr"
+                      cachedLength="4000"
+                      cachedName="ScheduledStartDate"
+                      lineageId="Package\FactWorkOrderRouting\Sort.Outputs[Sort Output].Columns[ScheduledStartDate]" />
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\Merge Join.Inputs[Merge Join Left Input].Columns[ScheduledEndDate]"
+                      cachedDataType="wstr"
+                      cachedLength="4000"
+                      cachedName="ScheduledEndDate"
+                      lineageId="Package\FactWorkOrderRouting\Sort.Outputs[Sort Output].Columns[ScheduledEndDate]" />
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\Merge Join.Inputs[Merge Join Left Input].Columns[ActualStartDate]"
+                      cachedDataType="wstr"
+                      cachedLength="4000"
+                      cachedName="ActualStartDate"
+                      lineageId="Package\FactWorkOrderRouting\Sort.Outputs[Sort Output].Columns[ActualStartDate]" />
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\Merge Join.Inputs[Merge Join Left Input].Columns[ActualEndDate]"
+                      cachedDataType="wstr"
+                      cachedLength="4000"
+                      cachedName="ActualEndDate"
+                      lineageId="Package\FactWorkOrderRouting\Sort.Outputs[Sort Output].Columns[ActualEndDate]" />
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\Merge Join.Inputs[Merge Join Left Input].Columns[PlannedCost]"
+                      cachedDataType="cy"
+                      cachedName="PlannedCost"
+                      lineageId="Package\FactWorkOrderRouting\Sort.Outputs[Sort Output].Columns[PlannedCost]" />
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\Merge Join.Inputs[Merge Join Left Input].Columns[ActualCost]"
+                      cachedDataType="cy"
+                      cachedName="ActualCost"
+                      lineageId="Package\FactWorkOrderRouting\Sort.Outputs[Sort Output].Columns[ActualCost]" />
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\Merge Join.Inputs[Merge Join Left Input].Columns[ScrappedQty]"
+                      cachedDataType="i2"
+                      cachedName="ScrappedQty"
+                      lineageId="Package\FactWorkOrderRouting\Sort.Outputs[Sort Output].Columns[ScrappedQty]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+                <input
+                  refId="Package\FactWorkOrderRouting\Merge Join.Inputs[Merge Join Right Input]"
+                  hasSideEffects="true"
+                  name="Merge Join Right Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\Merge Join.Inputs[Merge Join Right Input].Columns[ProductKeyDW]"
+                      cachedDataType="i4"
+                      cachedName="ProductKeyDW"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\FactWorkOrderRouting\SortFact.Outputs[Sort Output].Columns[ProductKeyDW]" />
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\Merge Join.Inputs[Merge Join Right Input].Columns[ActualCostDW]"
+                      cachedDataType="cy"
+                      cachedName="ActualCostDW"
+                      lineageId="Package\FactWorkOrderRouting\SortFact.Outputs[Sort Output].Columns[ActualCostDW]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\FactWorkOrderRouting\Merge Join.Outputs[Merge Join Output]"
+                  isSorted="true"
+                  name="Merge Join Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\Merge Join.Outputs[Merge Join Output].Columns[WorkOrderID]"
+                      dataType="i4"
+                      lineageId="Package\FactWorkOrderRouting\Merge Join.Outputs[Merge Join Output].Columns[WorkOrderID]"
+                      name="WorkOrderID">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\FactWorkOrderRouting\Merge Join.Inputs[Merge Join Left Input].Columns[WorkOrderID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\Merge Join.Outputs[Merge Join Output].Columns[ProductID]"
+                      dataType="i4"
+                      lineageId="Package\FactWorkOrderRouting\Merge Join.Outputs[Merge Join Output].Columns[ProductID]"
+                      name="ProductID">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\FactWorkOrderRouting\Merge Join.Inputs[Merge Join Left Input].Columns[ProductID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\Merge Join.Outputs[Merge Join Output].Columns[OperationSequence]"
+                      dataType="i2"
+                      lineageId="Package\FactWorkOrderRouting\Merge Join.Outputs[Merge Join Output].Columns[OperationSequence]"
+                      name="OperationSequence">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\FactWorkOrderRouting\Merge Join.Inputs[Merge Join Left Input].Columns[OperationSequence]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\Merge Join.Outputs[Merge Join Output].Columns[ScheduledStartDate]"
+                      dataType="wstr"
+                      length="4000"
+                      lineageId="Package\FactWorkOrderRouting\Merge Join.Outputs[Merge Join Output].Columns[ScheduledStartDate]"
+                      name="ScheduledStartDate">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\FactWorkOrderRouting\Merge Join.Inputs[Merge Join Left Input].Columns[ScheduledStartDate]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\Merge Join.Outputs[Merge Join Output].Columns[ScheduledEndDate]"
+                      dataType="wstr"
+                      length="4000"
+                      lineageId="Package\FactWorkOrderRouting\Merge Join.Outputs[Merge Join Output].Columns[ScheduledEndDate]"
+                      name="ScheduledEndDate">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\FactWorkOrderRouting\Merge Join.Inputs[Merge Join Left Input].Columns[ScheduledEndDate]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\Merge Join.Outputs[Merge Join Output].Columns[ActualStartDate]"
+                      dataType="wstr"
+                      length="4000"
+                      lineageId="Package\FactWorkOrderRouting\Merge Join.Outputs[Merge Join Output].Columns[ActualStartDate]"
+                      name="ActualStartDate">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\FactWorkOrderRouting\Merge Join.Inputs[Merge Join Left Input].Columns[ActualStartDate]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\Merge Join.Outputs[Merge Join Output].Columns[ActualEndDate]"
+                      dataType="wstr"
+                      length="4000"
+                      lineageId="Package\FactWorkOrderRouting\Merge Join.Outputs[Merge Join Output].Columns[ActualEndDate]"
+                      name="ActualEndDate">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\FactWorkOrderRouting\Merge Join.Inputs[Merge Join Left Input].Columns[ActualEndDate]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\Merge Join.Outputs[Merge Join Output].Columns[PlannedCost]"
+                      dataType="cy"
+                      lineageId="Package\FactWorkOrderRouting\Merge Join.Outputs[Merge Join Output].Columns[PlannedCost]"
+                      name="PlannedCost">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\FactWorkOrderRouting\Merge Join.Inputs[Merge Join Left Input].Columns[PlannedCost]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\Merge Join.Outputs[Merge Join Output].Columns[ActualCost]"
+                      dataType="cy"
+                      lineageId="Package\FactWorkOrderRouting\Merge Join.Outputs[Merge Join Output].Columns[ActualCost]"
+                      name="ActualCost">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\FactWorkOrderRouting\Merge Join.Inputs[Merge Join Left Input].Columns[ActualCost]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\Merge Join.Outputs[Merge Join Output].Columns[ScrappedQty]"
+                      dataType="i2"
+                      lineageId="Package\FactWorkOrderRouting\Merge Join.Outputs[Merge Join Output].Columns[ScrappedQty]"
+                      name="ScrappedQty">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\FactWorkOrderRouting\Merge Join.Inputs[Merge Join Left Input].Columns[ScrappedQty]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\Merge Join.Outputs[Merge Join Output].Columns[ProductKey]"
+                      dataType="i4"
+                      lineageId="Package\FactWorkOrderRouting\Merge Join.Outputs[Merge Join Output].Columns[ProductKey]"
+                      name="ProductKey"
+                      sortKeyPosition="1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\FactWorkOrderRouting\Merge Join.Inputs[Merge Join Left Input].Columns[ProductKey]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\Merge Join.Outputs[Merge Join Output].Columns[ActualCostDW]"
+                      dataType="cy"
+                      lineageId="Package\FactWorkOrderRouting\Merge Join.Outputs[Merge Join Output].Columns[ActualCostDW]"
+                      name="ActualCostDW">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\FactWorkOrderRouting\Merge Join.Inputs[Merge Join Right Input].Columns[ActualCostDW]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\FactWorkOrderRouting\OLE DB Source"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE DB Source"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select  b.ProductID, 
+a.WorkOrderID,
+OperationSequence,
+FORMAT(ActualStartDate,'yyyyMMdd') ScheduledStartDate, 
+FORMAT( ScheduledEndDate,'yyyyMMdd') ScheduledEndDate,
+FORMAT( ActualStartDate,'yyyyMMdd') ActualStartDate, 
+FORMAT( ActualEndDate,'yyyyMMdd') ActualEndDate,
+PlannedCost,
+ActualCost,
+b.ScrappedQty
+from Production.WorkOrderRouting a
+join Production.WorkOrder b on a.WorkOrderID = b.WorkOrderID
+join Production.Product c on a.ProductID=c.ProductID
+where (c.ProductSubcategoryID is not null) and (c.ProductModelID is not null)</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\FactWorkOrderRouting\OLE DB Source.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[DESKTOP-1J38BP4\MSSQLSERVER1.AdventureWorks2014]"
+                  connectionManagerRefId="Package.ConnectionManagers[DESKTOP-1J38BP4\MSSQLSERVER1.AdventureWorks2014]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].Columns[WorkOrderID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[WorkOrderID]"
+                      lineageId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].Columns[WorkOrderID]"
+                      name="WorkOrderID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].Columns[ProductID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ProductID]"
+                      lineageId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].Columns[ProductID]"
+                      name="ProductID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].Columns[OperationSequence]"
+                      dataType="i2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OperationSequence]"
+                      lineageId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].Columns[OperationSequence]"
+                      name="OperationSequence"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].Columns[ScheduledStartDate]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ScheduledStartDate]"
+                      length="4000"
+                      lineageId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].Columns[ScheduledStartDate]"
+                      name="ScheduledStartDate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].Columns[ScheduledEndDate]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ScheduledEndDate]"
+                      length="4000"
+                      lineageId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].Columns[ScheduledEndDate]"
+                      name="ScheduledEndDate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].Columns[ActualStartDate]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ActualStartDate]"
+                      length="4000"
+                      lineageId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].Columns[ActualStartDate]"
+                      name="ActualStartDate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].Columns[ActualEndDate]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ActualEndDate]"
+                      length="4000"
+                      lineageId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].Columns[ActualEndDate]"
+                      name="ActualEndDate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].Columns[PlannedCost]"
+                      dataType="cy"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PlannedCost]"
+                      lineageId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].Columns[PlannedCost]"
+                      name="PlannedCost"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].Columns[ActualCost]"
+                      dataType="cy"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ActualCost]"
+                      lineageId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].Columns[ActualCost]"
+                      name="ActualCost"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].Columns[ScrappedQty]"
+                      dataType="i2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ScrappedQty]"
+                      lineageId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].Columns[ScrappedQty]"
+                      name="ScrappedQty"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[WorkOrderID]"
+                      dataType="i4"
+                      name="WorkOrderID" />
+                    <externalMetadataColumn
+                      refId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ProductID]"
+                      dataType="i4"
+                      name="ProductID" />
+                    <externalMetadataColumn
+                      refId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OperationSequence]"
+                      dataType="i2"
+                      name="OperationSequence" />
+                    <externalMetadataColumn
+                      refId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ScheduledStartDate]"
+                      dataType="wstr"
+                      length="4000"
+                      name="ScheduledStartDate" />
+                    <externalMetadataColumn
+                      refId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ScheduledEndDate]"
+                      dataType="wstr"
+                      length="4000"
+                      name="ScheduledEndDate" />
+                    <externalMetadataColumn
+                      refId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ActualStartDate]"
+                      dataType="wstr"
+                      length="4000"
+                      name="ActualStartDate" />
+                    <externalMetadataColumn
+                      refId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ActualEndDate]"
+                      dataType="wstr"
+                      length="4000"
+                      name="ActualEndDate" />
+                    <externalMetadataColumn
+                      refId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PlannedCost]"
+                      dataType="cy"
+                      name="PlannedCost" />
+                    <externalMetadataColumn
+                      refId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ActualCost]"
+                      dataType="cy"
+                      name="ActualCost" />
+                    <externalMetadataColumn
+                      refId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ScrappedQty]"
+                      dataType="i2"
+                      name="ScrappedQty" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[WorkOrderID]"
+                      dataType="i4"
+                      lineageId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[WorkOrderID]"
+                      name="WorkOrderID" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ProductID]"
+                      dataType="i4"
+                      lineageId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ProductID]"
+                      name="ProductID" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OperationSequence]"
+                      dataType="i2"
+                      lineageId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OperationSequence]"
+                      name="OperationSequence" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ScheduledStartDate]"
+                      dataType="wstr"
+                      length="4000"
+                      lineageId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ScheduledStartDate]"
+                      name="ScheduledStartDate" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ScheduledEndDate]"
+                      dataType="wstr"
+                      length="4000"
+                      lineageId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ScheduledEndDate]"
+                      name="ScheduledEndDate" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ActualStartDate]"
+                      dataType="wstr"
+                      length="4000"
+                      lineageId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ActualStartDate]"
+                      name="ActualStartDate" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ActualEndDate]"
+                      dataType="wstr"
+                      length="4000"
+                      lineageId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ActualEndDate]"
+                      name="ActualEndDate" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PlannedCost]"
+                      dataType="cy"
+                      lineageId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PlannedCost]"
+                      name="PlannedCost" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ActualCost]"
+                      dataType="cy"
+                      lineageId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ActualCost]"
+                      name="ActualCost" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ScrappedQty]"
+                      dataType="i2"
+                      lineageId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ScrappedQty]"
+                      name="ScrappedQty" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\FactWorkOrderRouting\ProductKey"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="ProductKey"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[DimProduct]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[DimProduct]) [refTable]
+where [refTable].[ProductID] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="ProductKey" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ProductID" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ProductName" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ProductNumber" dataType="DT_WSTR" length="25" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ProductLine" dataType="DT_WSTR" length="10" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Size" dataType="DT_WSTR" length="5" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Weight" dataType="DT_NUMERIC" length="0" precision="8" scale="2" codePage="0"/&gt;&lt;referenceColumn name="Class" dataType="DT_WSTR" length="2" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Color" dataType="DT_WSTR" length="15" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Style" dataType="DT_WSTR" length="10" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ProductModelID" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ProductSubcategoryID" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ProductCategoryID" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Model" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Subcategory" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Category" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].Columns[ProductID]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\FactWorkOrderRouting\ProductKey.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[DESKTOP-1J38BP4\MSSQLSERVER1.ProductionDW]"
+                  connectionManagerRefId="Package.ConnectionManagers[DESKTOP-1J38BP4\MSSQLSERVER1.ProductionDW]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\FactWorkOrderRouting\ProductKey.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\ProductKey.Inputs[Lookup Input].Columns[ProductID]"
+                      cachedDataType="i4"
+                      cachedName="ProductID"
+                      lineageId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].Columns[ProductID]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">ProductID</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\FactWorkOrderRouting\ProductKey.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\FactWorkOrderRouting\ProductKey.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\ProductKey.Outputs[Lookup Match Output].Columns[ProductKey]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\FactWorkOrderRouting\ProductKey.Outputs[Lookup Match Output].Columns[ProductKey]"
+                      name="ProductKey"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">ProductKey</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\FactWorkOrderRouting\ProductKey.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\FactWorkOrderRouting\ProductKey.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\FactWorkOrderRouting\ProductKey.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\FactWorkOrderRouting\ProductKey.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\ProductKey.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\FactWorkOrderRouting\ProductKey.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\ProductKey.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\FactWorkOrderRouting\ProductKey.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\FactWorkOrderRouting\Sort"
+              componentClassID="Microsoft.Sort"
+              contactInfo="Sort;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Sorts input data in ascending or descending order when it cannot be sorted at its source. For example, sort sales data by 'customer id' before it is written to a flat file and delivered to another department. Note: We do not recommend this transformation for large data flows."
+              name="Sort"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the Sort transformation removes rows with duplicate sort values."
+                  name="EliminateDuplicates">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the maximum number of threads to use for sorting."
+                  expressionType="Notify"
+                  name="MaximumThreads">-1</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\FactWorkOrderRouting\Sort.Inputs[Sort Input]"
+                  name="Sort Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\Sort.Inputs[Sort Input].Columns[WorkOrderID]"
+                      cachedDataType="i4"
+                      cachedName="WorkOrderID"
+                      lineageId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].Columns[WorkOrderID]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\Sort.Inputs[Sort Input].Columns[ProductID]"
+                      cachedDataType="i4"
+                      cachedName="ProductID"
+                      lineageId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].Columns[ProductID]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\Sort.Inputs[Sort Input].Columns[OperationSequence]"
+                      cachedDataType="i2"
+                      cachedName="OperationSequence"
+                      lineageId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].Columns[OperationSequence]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\Sort.Inputs[Sort Input].Columns[ScheduledStartDate]"
+                      cachedDataType="wstr"
+                      cachedLength="4000"
+                      cachedName="ScheduledStartDate"
+                      lineageId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].Columns[ScheduledStartDate]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\Sort.Inputs[Sort Input].Columns[ScheduledEndDate]"
+                      cachedDataType="wstr"
+                      cachedLength="4000"
+                      cachedName="ScheduledEndDate"
+                      lineageId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].Columns[ScheduledEndDate]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\Sort.Inputs[Sort Input].Columns[ActualStartDate]"
+                      cachedDataType="wstr"
+                      cachedLength="4000"
+                      cachedName="ActualStartDate"
+                      lineageId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].Columns[ActualStartDate]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\Sort.Inputs[Sort Input].Columns[ActualEndDate]"
+                      cachedDataType="wstr"
+                      cachedLength="4000"
+                      cachedName="ActualEndDate"
+                      lineageId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].Columns[ActualEndDate]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\Sort.Inputs[Sort Input].Columns[PlannedCost]"
+                      cachedDataType="cy"
+                      cachedName="PlannedCost"
+                      lineageId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].Columns[PlannedCost]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\Sort.Inputs[Sort Input].Columns[ActualCost]"
+                      cachedDataType="cy"
+                      cachedName="ActualCost"
+                      lineageId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].Columns[ActualCost]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\Sort.Inputs[Sort Input].Columns[ScrappedQty]"
+                      cachedDataType="i2"
+                      cachedName="ScrappedQty"
+                      lineageId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].Columns[ScrappedQty]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\Sort.Inputs[Sort Input].Columns[ProductKey]"
+                      cachedDataType="i4"
+                      cachedName="ProductKey"
+                      lineageId="Package\FactWorkOrderRouting\ProductKey.Outputs[Lookup Match Output].Columns[ProductKey]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">1</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\FactWorkOrderRouting\Sort.Outputs[Sort Output]"
+                  isSorted="true"
+                  name="Sort Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\Sort.Outputs[Sort Output].Columns[WorkOrderID]"
+                      dataType="i4"
+                      lineageId="Package\FactWorkOrderRouting\Sort.Outputs[Sort Output].Columns[WorkOrderID]"
+                      name="WorkOrderID">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].Columns[WorkOrderID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\Sort.Outputs[Sort Output].Columns[ProductID]"
+                      dataType="i4"
+                      lineageId="Package\FactWorkOrderRouting\Sort.Outputs[Sort Output].Columns[ProductID]"
+                      name="ProductID">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].Columns[ProductID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\Sort.Outputs[Sort Output].Columns[OperationSequence]"
+                      dataType="i2"
+                      lineageId="Package\FactWorkOrderRouting\Sort.Outputs[Sort Output].Columns[OperationSequence]"
+                      name="OperationSequence">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].Columns[OperationSequence]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\Sort.Outputs[Sort Output].Columns[ScheduledStartDate]"
+                      dataType="wstr"
+                      length="4000"
+                      lineageId="Package\FactWorkOrderRouting\Sort.Outputs[Sort Output].Columns[ScheduledStartDate]"
+                      name="ScheduledStartDate">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].Columns[ScheduledStartDate]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\Sort.Outputs[Sort Output].Columns[ScheduledEndDate]"
+                      dataType="wstr"
+                      length="4000"
+                      lineageId="Package\FactWorkOrderRouting\Sort.Outputs[Sort Output].Columns[ScheduledEndDate]"
+                      name="ScheduledEndDate">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].Columns[ScheduledEndDate]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\Sort.Outputs[Sort Output].Columns[ActualStartDate]"
+                      dataType="wstr"
+                      length="4000"
+                      lineageId="Package\FactWorkOrderRouting\Sort.Outputs[Sort Output].Columns[ActualStartDate]"
+                      name="ActualStartDate">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].Columns[ActualStartDate]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\Sort.Outputs[Sort Output].Columns[ActualEndDate]"
+                      dataType="wstr"
+                      length="4000"
+                      lineageId="Package\FactWorkOrderRouting\Sort.Outputs[Sort Output].Columns[ActualEndDate]"
+                      name="ActualEndDate">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].Columns[ActualEndDate]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\Sort.Outputs[Sort Output].Columns[PlannedCost]"
+                      dataType="cy"
+                      lineageId="Package\FactWorkOrderRouting\Sort.Outputs[Sort Output].Columns[PlannedCost]"
+                      name="PlannedCost">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].Columns[PlannedCost]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\Sort.Outputs[Sort Output].Columns[ActualCost]"
+                      dataType="cy"
+                      lineageId="Package\FactWorkOrderRouting\Sort.Outputs[Sort Output].Columns[ActualCost]"
+                      name="ActualCost">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].Columns[ActualCost]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\Sort.Outputs[Sort Output].Columns[ScrappedQty]"
+                      dataType="i2"
+                      lineageId="Package\FactWorkOrderRouting\Sort.Outputs[Sort Output].Columns[ScrappedQty]"
+                      name="ScrappedQty">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output].Columns[ScrappedQty]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\Sort.Outputs[Sort Output].Columns[ProductKey]"
+                      dataType="i4"
+                      lineageId="Package\FactWorkOrderRouting\Sort.Outputs[Sort Output].Columns[ProductKey]"
+                      name="ProductKey"
+                      sortKeyPosition="1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\FactWorkOrderRouting\ProductKey.Outputs[Lookup Match Output].Columns[ProductKey]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\FactWorkOrderRouting\SortFact"
+              componentClassID="Microsoft.Sort"
+              contactInfo="Sort;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Sorts input data in ascending or descending order when it cannot be sorted at its source. For example, sort sales data by 'customer id' before it is written to a flat file and delivered to another department. Note: We do not recommend this transformation for large data flows."
+              name="SortFact"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the Sort transformation removes rows with duplicate sort values."
+                  name="EliminateDuplicates">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the maximum number of threads to use for sorting."
+                  expressionType="Notify"
+                  name="MaximumThreads">-1</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\FactWorkOrderRouting\SortFact.Inputs[Sort Input]"
+                  name="Sort Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\SortFact.Inputs[Sort Input].Columns[FactWorkOrderRoutingKey]"
+                      cachedDataType="i4"
+                      cachedName="FactWorkOrderRoutingKey"
+                      lineageId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[FactWorkOrderRoutingKey]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\SortFact.Inputs[Sort Input].Columns[ProductKeyDW]"
+                      cachedDataType="i4"
+                      cachedName="ProductKeyDW"
+                      lineageId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[ProductKeyDW]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">1</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\SortFact.Inputs[Sort Input].Columns[WorkOrderID]"
+                      cachedDataType="i4"
+                      cachedName="WorkOrderID"
+                      lineageId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[WorkOrderID]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\SortFact.Inputs[Sort Input].Columns[OperationSequence]"
+                      cachedDataType="i4"
+                      cachedName="OperationSequence"
+                      lineageId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[OperationSequence]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\SortFact.Inputs[Sort Input].Columns[ScheduledStartDate]"
+                      cachedDataType="i4"
+                      cachedName="ScheduledStartDate"
+                      lineageId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[ScheduledStartDate]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\SortFact.Inputs[Sort Input].Columns[ScheduledEndDate]"
+                      cachedDataType="i4"
+                      cachedName="ScheduledEndDate"
+                      lineageId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[ScheduledEndDate]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\SortFact.Inputs[Sort Input].Columns[ActualStartDate]"
+                      cachedDataType="i4"
+                      cachedName="ActualStartDate"
+                      lineageId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[ActualStartDate]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\SortFact.Inputs[Sort Input].Columns[ActualEndDate]"
+                      cachedDataType="i4"
+                      cachedName="ActualEndDate"
+                      lineageId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[ActualEndDate]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\SortFact.Inputs[Sort Input].Columns[PlannedCost]"
+                      cachedDataType="cy"
+                      cachedName="PlannedCost"
+                      lineageId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[PlannedCost]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\SortFact.Inputs[Sort Input].Columns[ActualCostDW]"
+                      cachedDataType="cy"
+                      cachedName="ActualCostDW"
+                      lineageId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[ActualCostDW]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\SortFact.Inputs[Sort Input].Columns[ScrappedQuantity]"
+                      cachedDataType="i4"
+                      cachedName="ScrappedQuantity"
+                      lineageId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[ScrappedQuantity]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\SortFact.Inputs[Sort Input].Columns[ProductID]"
+                      cachedDataType="i4"
+                      cachedName="ProductID"
+                      lineageId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[ProductID]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\FactWorkOrderRouting\SortFact.Outputs[Sort Output]"
+                  isSorted="true"
+                  name="Sort Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\SortFact.Outputs[Sort Output].Columns[FactWorkOrderRoutingKey]"
+                      dataType="i4"
+                      lineageId="Package\FactWorkOrderRouting\SortFact.Outputs[Sort Output].Columns[FactWorkOrderRoutingKey]"
+                      name="FactWorkOrderRoutingKey">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[FactWorkOrderRoutingKey]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\SortFact.Outputs[Sort Output].Columns[ProductKeyDW]"
+                      dataType="i4"
+                      lineageId="Package\FactWorkOrderRouting\SortFact.Outputs[Sort Output].Columns[ProductKeyDW]"
+                      name="ProductKeyDW"
+                      sortKeyPosition="1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[ProductKeyDW]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\SortFact.Outputs[Sort Output].Columns[WorkOrderID]"
+                      dataType="i4"
+                      lineageId="Package\FactWorkOrderRouting\SortFact.Outputs[Sort Output].Columns[WorkOrderID]"
+                      name="WorkOrderID">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[WorkOrderID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\SortFact.Outputs[Sort Output].Columns[OperationSequence]"
+                      dataType="i4"
+                      lineageId="Package\FactWorkOrderRouting\SortFact.Outputs[Sort Output].Columns[OperationSequence]"
+                      name="OperationSequence">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[OperationSequence]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\SortFact.Outputs[Sort Output].Columns[ScheduledStartDate]"
+                      dataType="i4"
+                      lineageId="Package\FactWorkOrderRouting\SortFact.Outputs[Sort Output].Columns[ScheduledStartDate]"
+                      name="ScheduledStartDate">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[ScheduledStartDate]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\SortFact.Outputs[Sort Output].Columns[ScheduledEndDate]"
+                      dataType="i4"
+                      lineageId="Package\FactWorkOrderRouting\SortFact.Outputs[Sort Output].Columns[ScheduledEndDate]"
+                      name="ScheduledEndDate">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[ScheduledEndDate]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\SortFact.Outputs[Sort Output].Columns[ActualStartDate]"
+                      dataType="i4"
+                      lineageId="Package\FactWorkOrderRouting\SortFact.Outputs[Sort Output].Columns[ActualStartDate]"
+                      name="ActualStartDate">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[ActualStartDate]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\SortFact.Outputs[Sort Output].Columns[ActualEndDate]"
+                      dataType="i4"
+                      lineageId="Package\FactWorkOrderRouting\SortFact.Outputs[Sort Output].Columns[ActualEndDate]"
+                      name="ActualEndDate">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[ActualEndDate]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\SortFact.Outputs[Sort Output].Columns[PlannedCost]"
+                      dataType="cy"
+                      lineageId="Package\FactWorkOrderRouting\SortFact.Outputs[Sort Output].Columns[PlannedCost]"
+                      name="PlannedCost">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[PlannedCost]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\SortFact.Outputs[Sort Output].Columns[ActualCostDW]"
+                      dataType="cy"
+                      lineageId="Package\FactWorkOrderRouting\SortFact.Outputs[Sort Output].Columns[ActualCostDW]"
+                      name="ActualCostDW">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[ActualCostDW]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\SortFact.Outputs[Sort Output].Columns[ScrappedQuantity]"
+                      dataType="i4"
+                      lineageId="Package\FactWorkOrderRouting\SortFact.Outputs[Sort Output].Columns[ScrappedQuantity]"
+                      name="ScrappedQuantity">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[ScrappedQuantity]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\SortFact.Outputs[Sort Output].Columns[ProductID]"
+                      dataType="i4"
+                      lineageId="Package\FactWorkOrderRouting\SortFact.Outputs[Sort Output].Columns[ProductID]"
+                      name="ProductID">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output].Columns[ProductID]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\FactWorkOrderRouting\UpdateFactWorkOrderRouting"
+              componentClassID="Microsoft.OLEDBCommand"
+              contactInfo="OLE DB Command;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;2"
+              description="Runs an SQL statement for each row in a data flow. For example, call a 'new employee setup' stored procedure for each row in the 'new employees' table. Note: running an SQL statement for each row of a large data flow may take a long time."
+              name="UpdateFactWorkOrderRouting"
+              usesDispositions="true"
+              version="2">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">UPDATE [dbo].[FactWorkOrderRouting]
+SET [ActualCost] =?
+where [ProductKey]=?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\FactWorkOrderRouting\UpdateFactWorkOrderRouting.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[DESKTOP-1J38BP4\MSSQLSERVER1.ProductionDW]"
+                  connectionManagerRefId="Package.ConnectionManagers[DESKTOP-1J38BP4\MSSQLSERVER1.ProductionDW]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\FactWorkOrderRouting\UpdateFactWorkOrderRouting.Inputs[OLE DB Command Input]"
+                  errorOrTruncationOperation="Command Execution"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Command Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\UpdateFactWorkOrderRouting.Inputs[OLE DB Command Input].Columns[ActualCost]"
+                      cachedDataType="cy"
+                      cachedName="ActualCost"
+                      externalMetadataColumnId="Package\FactWorkOrderRouting\UpdateFactWorkOrderRouting.Inputs[OLE DB Command Input].ExternalColumns[Param_0]"
+                      lineageId="Package\FactWorkOrderRouting\Merge Join.Outputs[Merge Join Output].Columns[ActualCost]" />
+                    <inputColumn
+                      refId="Package\FactWorkOrderRouting\UpdateFactWorkOrderRouting.Inputs[OLE DB Command Input].Columns[ProductKey]"
+                      cachedDataType="i4"
+                      cachedName="ProductKey"
+                      cachedSortKeyPosition="1"
+                      externalMetadataColumnId="Package\FactWorkOrderRouting\UpdateFactWorkOrderRouting.Inputs[OLE DB Command Input].ExternalColumns[Param_1]"
+                      lineageId="Package\FactWorkOrderRouting\Merge Join.Outputs[Merge Join Output].Columns[ProductKey]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\FactWorkOrderRouting\UpdateFactWorkOrderRouting.Inputs[OLE DB Command Input].ExternalColumns[Param_0]"
+                      dataType="cy"
+                      name="Param_0">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">81</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\FactWorkOrderRouting\UpdateFactWorkOrderRouting.Inputs[OLE DB Command Input].ExternalColumns[Param_1]"
+                      dataType="i4"
+                      name="Param_1">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">81</property>
+                      </properties>
+                    </externalMetadataColumn>
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\FactWorkOrderRouting\UpdateFactWorkOrderRouting.Outputs[OLE DB Command Output]"
+                  exclusionGroup="1"
+                  name="OLE DB Command Output"
+                  synchronousInputId="Package\FactWorkOrderRouting\UpdateFactWorkOrderRouting.Inputs[OLE DB Command Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\FactWorkOrderRouting\UpdateFactWorkOrderRouting.Outputs[OLE DB Command Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Command Error Output"
+                  synchronousInputId="Package\FactWorkOrderRouting\UpdateFactWorkOrderRouting.Inputs[OLE DB Command Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\UpdateFactWorkOrderRouting.Outputs[OLE DB Command Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\FactWorkOrderRouting\UpdateFactWorkOrderRouting.Outputs[OLE DB Command Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\FactWorkOrderRouting\UpdateFactWorkOrderRouting.Outputs[OLE DB Command Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\FactWorkOrderRouting\UpdateFactWorkOrderRouting.Outputs[OLE DB Command Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\FactWorkOrderRouting.Paths[Insert]"
+              endId="Package\FactWorkOrderRouting\InsertFactWorkOrderRouting.Inputs[OLE DB Destination Input]"
+              name="Insert"
+              startId="Package\FactWorkOrderRouting\Conditional Split.Outputs[Insert]" />
+            <path
+              refId="Package\FactWorkOrderRouting.Paths[Lookup Match Output]"
+              endId="Package\FactWorkOrderRouting\Sort.Inputs[Sort Input]"
+              name="Lookup Match Output"
+              startId="Package\FactWorkOrderRouting\ProductKey.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\FactWorkOrderRouting.Paths[Merge Join Output]"
+              endId="Package\FactWorkOrderRouting\Conditional Split.Inputs[Conditional Split Input]"
+              name="Merge Join Output"
+              startId="Package\FactWorkOrderRouting\Merge Join.Outputs[Merge Join Output]" />
+            <path
+              refId="Package\FactWorkOrderRouting.Paths[OLE DB Source Output]"
+              endId="Package\FactWorkOrderRouting\ProductKey.Inputs[Lookup Input]"
+              name="OLE DB Source Output"
+              startId="Package\FactWorkOrderRouting\OLE DB Source.Outputs[OLE DB Source Output]" />
+            <path
+              refId="Package\FactWorkOrderRouting.Paths[OLE DB Source Output1]"
+              endId="Package\FactWorkOrderRouting\SortFact.Inputs[Sort Input]"
+              name="OLE DB Source Output"
+              startId="Package\FactWorkOrderRouting\FactWorkOrderRouting.Outputs[OLE DB Source Output]" />
+            <path
+              refId="Package\FactWorkOrderRouting.Paths[Sort Output]"
+              endId="Package\FactWorkOrderRouting\Merge Join.Inputs[Merge Join Left Input]"
+              name="Sort Output"
+              startId="Package\FactWorkOrderRouting\Sort.Outputs[Sort Output]" />
+            <path
+              refId="Package\FactWorkOrderRouting.Paths[Sort Output1]"
+              endId="Package\FactWorkOrderRouting\Merge Join.Inputs[Merge Join Right Input]"
+              name="Sort Output"
+              startId="Package\FactWorkOrderRouting\SortFact.Outputs[Sort Output]" />
+            <path
+              refId="Package\FactWorkOrderRouting.Paths[Update]"
+              endId="Package\FactWorkOrderRouting\UpdateFactWorkOrderRouting.Inputs[OLE DB Command Input]"
+              name="Update"
+              startId="Package\FactWorkOrderRouting\Conditional Split.Outputs[Update]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="185.6,41.6"
+          Id="Package\FactWorkOrderRouting"
+          TopLeft="140.000002384186,87.1764718108524" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\FactWorkOrderRouting">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="117.6,41.6"
+          Id="Package\FactWorkOrderRouting\SortFact"
+          TopLeft="434.285721681556,113.788236452386" />
+        <NodeLayout
+          Size="154.4,41.6"
+          Id="Package\FactWorkOrderRouting\Conditional Split"
+          TopLeft="545.714295007745,225.541179162491" />
+        <NodeLayout
+          Size="149.6,41.6"
+          Id="Package\FactWorkOrderRouting\OLE DB Source"
+          TopLeft="160.714288451234,31.3529416161838" />
+        <NodeLayout
+          Size="129.6,41.6"
+          Id="Package\FactWorkOrderRouting\Merge Join"
+          TopLeft="382.857149377161,233.376473087093" />
+        <NodeLayout
+          Size="131.2,41.6"
+          Id="Package\FactWorkOrderRouting\ProductKey"
+          TopLeft="155.000002639634,109.352942710104" />
+        <NodeLayout
+          Size="97.6,41.6"
+          Id="Package\FactWorkOrderRouting\Sort"
+          TopLeft="156.428574092534,215.541178797851" />
+        <NodeLayout
+          Size="213.6,41.6"
+          Id="Package\FactWorkOrderRouting\InsertFactWorkOrderRouting"
+          TopLeft="431.428578775756,330.905886331809" />
+        <NodeLayout
+          Size="185.6,41.6"
+          Id="Package\FactWorkOrderRouting\FactWorkOrderRouting"
+          TopLeft="385.000006556511,48.0235296477084" />
+        <NodeLayout
+          Size="219.2,41.6"
+          Id="Package\FactWorkOrderRouting\UpdateFactWorkOrderRouting"
+          TopLeft="711.428583544128,336.988237910947" />
+        <EdgeLayout
+          Id="Package\FactWorkOrderRouting.Paths[Update]"
+          TopLeft="647.314295007745,267.141179162491">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="173.714288536383,69.8470587484564"
+              Start="0,0"
+              End="173.714288536383,62.3470587484564">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,24.3686515532192" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,24.3686515532192"
+                    Point2="0,28.3686515532192"
+                    Point3="4,28.3686515532192" />
+                  <mssgle:LineSegment
+                    End="169.714288536383,28.3686515532192" />
+                  <mssgle:CubicBezierSegment
+                    Point1="169.714288536383,28.3686515532192"
+                    Point2="173.714288536383,28.3686515532192"
+                    Point3="173.714288536383,32.3686515532192" />
+                  <mssgle:LineSegment
+                    End="173.714288536383,62.3470587484564" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="70.5768512994415,33.3686515532192,32.5605859375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\FactWorkOrderRouting.Paths[Sort Output1]"
+          TopLeft="493.085721681556,155.388236452387">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-45.4285723043947,77.9882366347065"
+              Start="0,0"
+              End="-45.4285723043947,70.4882366347065">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,34.9941183173533" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,34.9941183173533"
+                    Point2="0,38.9941183173533"
+                    Point3="-4,38.9941183173533" />
+                  <mssgle:LineSegment
+                    End="-41.4285723043947,38.9941183173533" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-41.4285723043947,38.9941183173533"
+                    Point2="-45.4285723043947,38.9941183173533"
+                    Point3="-45.4285723043947,42.9941183173533" />
+                  <mssgle:LineSegment
+                    End="-45.4285723043947,70.4882366347065" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\FactWorkOrderRouting.Paths[Sort Output]"
+          TopLeft="254.028574092534,236.341178797851">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="128.828575284627,17.8352942892425"
+              Start="0,0"
+              End="121.328575284627,17.8352942892425">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="60.4142876423136,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="60.4142876423136,0"
+                    Point2="64.4142876423136,0"
+                    Point3="64.4142876423136,4" />
+                  <mssgle:LineSegment
+                    End="64.4142876423136,13.8352942892425" />
+                  <mssgle:CubicBezierSegment
+                    Point1="64.4142876423136,13.8352942892425"
+                    Point2="64.4142876423136,17.8352942892425"
+                    Point3="68.4142876423136,17.8352942892425" />
+                  <mssgle:LineSegment
+                    End="121.328575284627,17.8352942892425" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\FactWorkOrderRouting.Paths[OLE DB Source Output1]"
+          TopLeft="477.800006556511,89.6235296477084">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="15.2857151250449,24.1647068046781"
+              Start="0,0"
+              End="15.2857151250449,16.6647068046781">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,8.08235340233907" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,8.08235340233907"
+                    Point2="0,12.0823534023391"
+                    Point3="4,12.0823534023391" />
+                  <mssgle:LineSegment
+                    End="11.2857151250449,12.0823534023391" />
+                  <mssgle:CubicBezierSegment
+                    Point1="11.2857151250449,12.0823534023391"
+                    Point2="15.2857151250449,12.0823534023391"
+                    Point3="15.2857151250449,16.0823534023391" />
+                  <mssgle:LineSegment
+                    End="15.2857151250449,16.6647068046781" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\FactWorkOrderRouting.Paths[OLE DB Source Output]"
+          TopLeft="235.514288451234,72.9529416161838">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-14.9142858115994,36.4000010939206"
+              Start="0,0"
+              End="-14.9142858115994,28.9000010939206">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,14.2000005469603" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,14.2000005469603"
+                    Point2="0,18.2000005469603"
+                    Point3="-4,18.2000005469603" />
+                  <mssgle:LineSegment
+                    End="-10.9142858115994,18.2000005469603" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-10.9142858115994,18.2000005469603"
+                    Point2="-14.9142858115994,18.2000005469603"
+                    Point3="-14.9142858115994,22.2000005469603" />
+                  <mssgle:LineSegment
+                    End="-14.9142858115994,28.9000010939206" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\FactWorkOrderRouting.Paths[Merge Join Output]"
+          TopLeft="512.457149377161,250.258826124792">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="33.2571456305835,0"
+              Start="0,0"
+              End="25.7571456305835,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="25.7571456305835,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\FactWorkOrderRouting.Paths[Lookup Match Output]"
+          TopLeft="220.600002639634,150.952942710104">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-15.3714285471002,64.5882360877462"
+              Start="0,0"
+              End="-15.3714285471002,57.0882360877462">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,28.2941180438731" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,28.2941180438731"
+                    Point2="0,32.2941180438731"
+                    Point3="-4,32.2941180438731" />
+                  <mssgle:LineSegment
+                    End="-11.3714285471002,32.2941180438731" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-11.3714285471002,32.2941180438731"
+                    Point2="-15.3714285471002,32.2941180438731"
+                    Point3="-15.3714285471002,36.2941180438731" />
+                  <mssgle:LineSegment
+                    End="-15.3714285471002,57.0882360877462" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-55.8771009923001,37.2941180438731,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\FactWorkOrderRouting.Paths[Insert]"
+          TopLeft="622.914295007745,267.141179162491">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-84.6857162319884,63.7647071693185"
+              Start="0,0"
+              End="-84.6857162319884,56.2647071693185">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,27.8823535846592" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,27.8823535846592"
+                    Point2="0,31.8823535846592"
+                    Point3="-4,31.8823535846592" />
+                  <mssgle:LineSegment
+                    End="-80.6857162319884,31.8823535846592" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-80.6857162319884,31.8823535846592"
+                    Point2="-84.6857162319884,31.8823535846592"
+                    Point3="-84.6857162319884,35.8823535846592" />
+                  <mssgle:LineSegment
+                    End="-84.6857162319884,56.2647071693185" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-56.0958463972442,36.8823535846592,27.5059765625,9.40234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\FactWorkOrderRouting\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\FactWorkOrderRouting\ProductKey">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[DimProduct]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\FactWorkOrderRouting\InsertFactWorkOrderRouting">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\FactWorkOrderRouting\FactWorkOrderRouting">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
